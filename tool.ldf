@@ -1,3 +1,10 @@
+<!--
+    This dataset contains a multi-turn dialogue involving the user, assistant, and tools.
+
+    The user initiates a prompt, the assistant responds with guidance or executable lugha code, 
+    and the tool executes the code and returns the output, which is then used in the conversation flow.
+-->
+
 <conversation>
     <user>
         <content>

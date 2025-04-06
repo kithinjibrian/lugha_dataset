@@ -1,0 +1,1 @@
+ldf lugha.ldf tool.ldf -o data.jsonl
