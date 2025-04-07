@@ -4795,3 +4795,480 @@ fun main(): unit {
         </content>
     </assistant>
 </conversation>
+
+<conversation>
+    <user>
+        <content>
+            You are given the inorder and postorder traversal sequences of a binary tree. Your task is to construct the
+            binary tree
+            from these traversal sequences and return the root node of the tree.
+
+            The inorder traversal sequence of a binary tree is a list of nodes obtained by performing an inorder
+            traversal of the
+            tree. Similarly, the postorder traversal sequence is obtained by performing a postorder traversal of the
+            tree.
+
+            You need to implement the `build_tree` method, which takes two parameters:
+            - `inorder`: a list of integers representing the inorder traversal sequence of the binary tree.
+            - `postorder`: a list of integers representing the postorder traversal sequence of the binary tree.
+
+            The method should construct and return the root node of the binary tree based on the given inorder and
+            postorder
+            traversal sequences.
+
+            For example, given the following inorder and postorder traversal sequences:
+            Inorder: [9, 3, 15, 20, 7]
+            Postorder: [9, 15, 7, 20, 3]
+
+            The constructed binary tree should look like this:
+            ```
+            3
+            / \
+            9 20
+            / \
+            15 7
+            ```
+        </content>
+    </user>
+    <assistant>
+        <content>
+            <code lang="lugha">
+use std::option::Option;
+use std::result::Result;
+
+struct TreeNode {
+    value: number;
+    left: Option&lt;TreeNode&gt;;
+    right: Option&lt;TreeNode&gt;;
+
+    fun new(value: number): Self {
+        return TreeNode {
+            value,
+            left: Option::None,
+            right: Option::None
+        };
+    }
+}
+
+enum Error {
+    LengthZero
+}
+
+fun build_tree(inorder: Array&lt;number&gt;, postorder: Array&lt;number&gt;): Result&lt;TreeNode, Error&gt; {
+    let build = (in_start: number, post_start: number, length: number): Result&lt;TreeNode, Error&gt; -&gt; {
+        if(length == 0) {
+            return Result::Err(Error::LengthZero);
+        }
+
+        let root_val = postorder[post_start + length - 1];
+        let in_root = inorder.index_of(root_val);
+        let left_length = in_root - in_start;
+
+        let left = build(in_start, post_start, left_length);
+        let right = build(in_root + 1, post_start + left_length, length - left_length - 1);
+        
+        return TreeNode {
+            value: root_val,
+            left: left,
+            right: right
+        };
+    }
+
+    return build(0, 0, inorder.length);
+}
+            </code>
+            The `build_tree` method first defines a helper function `build` to recursively construct the binary tree. It
+            then calls this helper function with the initial indices and the length of the traversal sequences to
+            construct the
+            entire binary tree. The helper function constructs the root node, finds the index of the root in the inorder
+            sequence,
+            and recursively constructs the left and right subtrees. Finally, it returns the root of the constructed
+            binary tree.
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            You are tasked with creating a Lugha function that simulates a simple game of rock-paper-scissors. The
+            function should
+            take two arguments, representing the choices of two players, and return the result of the game based on the
+            standard
+            rules: rock beats scissors, scissors beats paper, and paper beats rock. If the choices are the same, the
+            game should be
+            a tie.
+
+            Your task is to implement the `rock_paper_scissors` function, which takes two strings, `player1_choice` and
+            `player2_choice`, representing the choices of the two players. The function should return one of the
+            following strings:
+            "Player 1 wins", "Player 2 wins", or "It's a tie", based on the outcome of the game.
+
+            Example:
+            ```lugha
+            let result = rock_paper_scissors("rock", "scissors")
+            print("{}", result) // Output: "Player 1 wins"
+            ```
+        </content>
+    </user>
+    <assistant>
+        <content>
+            <code lang="lugha">
+use std::io::{ print };
+
+fun rock_paper_scissors(player1_choice: string, player2_choice: string): string {
+    // Check if both players chose the same
+    if (player1_choice == player2_choice) {
+        return "It's a tie";
+    }
+
+    // Check if Player 1's choice beats Player 2's choice
+    if ((player1_choice == "rock" and player2_choice == "scissors") or
+    (player1_choice == "scissors" and player2_choice == "paper") or
+    (player1_choice == "paper" and player2_choice == "rock")) {
+        return "Player 1 wins";
+    }
+
+    // If none of the above, Player 2 wins
+    return "Player 2 wins";
+}
+
+fun main(): unit {
+    let result = rock_paper_scissors("paper", "rock")
+    print("{}", result) // Output: "Player 1 wins"
+}
+            </code>
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            How can I create a struct to represent a singly linked list in Lugha?
+        </content>
+    </user>
+    <assistant>
+        <content>
+            <code lang="lugha">
+use std::option::Option;
+
+struct Node&lt;T&gt; {
+    value: T;
+    mut next: Option&lt;Node&lt;T&gt;&gt;;
+
+    fun new(value: T): Self {
+        return Node {
+            value: value,
+            next: Option::None
+        };
+    }
+}
+
+struct LinkedList&lt;T&gt; {
+    head: Option&lt;Node&lt;T&gt;&gt;;
+
+    fun new(): Self {
+        return LinkedList {
+            head: Option::None
+        };
+    }
+
+    fun insert(self: Self, data: T): unit {
+        let new_node = Node::new(data);
+
+        if (self.head == Option::None) {
+            self.head = Option::Some(new_node); // If the list is empty, set the head to the new node
+            return;
+        }
+
+        new_node.next = self.head; // Link the new node to the current head
+        self.head = Option::Some(new_node);
+    }
+}
+            </code>
+            In this solution, the Node struct represents a single node in the linked list. It has an associated function
+            `new` that takes the data
+            as an argument and initializes both data and next attributes.
+
+            The LinkedList struct represents the entire linked list. It has an associated function `new` that
+            initializes the head attribute as
+            Option::None. The insert method is used to insert a new node at the start of the linked list. If the head is
+            empty, the
+            new node becomes the head. Otherwise, the new node's next attribute is set to the current head, and the new
+            node becomes
+            the head.
+
+            You can use this code to create a singly linked list and insert nodes at the start.
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            Develop a map creation mechanism from a specified array in such a way that the map's keys represent
+            distinct items from this list, and the corresponding values express their repetition count in the same list.
+            let lst = ['apple', 'banana', 'apple', 'cherry', 'banana', 'cherry', 'cherry']
+        </content>
+    </user>
+    <assistant>
+        <content>
+            <code lang="lugha">
+use std::io::{ print };
+use std::containers::Map;
+
+fun create_map(arr: Array&lt;string&gt;): Map&lt;string, number&gt; {
+    let result = Map::new();
+    
+    for(let item in arr) {
+        result.set(item, (result.get(item) or 0) + 1);
+    }
+
+    return result;
+}
+
+fun main(): unit {
+    let arr = ['apple', 'banana', 'apple', 'cherry', 'banana', 'cherry', 'cherry'];
+    print("{}", create_map(arr));
+}
+            </code>
+            When you run this code, it will return:
+
+            ```lugha
+            {'apple': 2, 'banana': 2, 'cherry': 3}
+            ```
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            The BNF(Backus Naur Form) of the lugha programming language
+        </content>
+    </user>
+    <assistant>
+        <content>
+            <code lang="text">
+Program ::= (source_elements)? &lt;EOF&gt;
+
+source_elements ::= (source_element)+
+
+source_element ::= function_declaration
+    | statement
+
+statement ::= block
+    | variable_statement
+    | import_statement
+    | use_statement
+    | empty_statement
+    | if_statement
+    | iteration_statement
+    | continue_statement
+    | break_statement
+    | return_statement
+    | expression_statement
+    | struct_statement
+    | enum_statement
+    | trait_statement
+    | module_statement
+    
+block ::= "{" (statement_list)? "}"
+statement_list ::= (statement)+
+
+variable_statement ::= "let" variable_declaration ";"
+variable_declaration ::= ("mut")? identifier (type_annotation)? (initialiser)?
+
+type_annotation ::= ":" type
+type ::= primitive
+    | "Self"
+    | "Array" "&lt;" type "&gt;"
+    | "Set" "&lt;" type "&gt;" 
+    | "Map" "&lt;" type "," type "&gt;" 
+    | "(" type ("," type)* ")" 
+    
+primitive ::= number 
+    | string 
+    | bool 
+    | unit 
+    | struct_types 
+    
+initialiser ::= "=" assignment_expression 
+
+empty_statement ::= ";"
+
+expression_statement ::= expression ";" 
+
+if_statement ::= "if" "(" expression ")" statement ("else" statement)?
+
+iteration_statement ::= "while" "(" expression ")" statement 
+    | "for" "(" "let" variable_declaration "in" expression ")" statement 
+    
+continue_statement ::= "continue" ";" 
+
+break_statement ::= "break" ";" 
+
+return_statement ::= "return" (expression)? ";" 
+
+function_declaration ::= "fun" identifier (type_parameters)? "("(parameter_list)? ")" type_annotation function_body 
+
+type_parameters ::= "&lt;" type_parameter ("," type_parameter)* "&gt;" 
+type_parameter ::= identifier (":" identifier ("," identifier)*)? 
+
+function_body ::= "{" (source_elements)? "}" 
+
+parameter_list ::= parameter ("," parameter)* 
+
+parameter ::= ("mut")? identifier type_annotation 
+
+import_statement ::= "import" identifier ";" 
+
+trait_statement ::= "trait" identifier (type_parameters)? "{" (trait_body)? "}" 
+trait_body ::= (trait_member ";" )* 
+trait_member ::= trait_method
+trait_method ::= "fun" identifier "(" parameter_list ")" (type_annotation)? ("{" function_body "}" )? ";"
+
+struct_statement ::= export_modifier? "struct" identifier (type_parameters)? ("impl" trait_impl ("," trait_impl)*)? "{" (struct_body)? "}" 
+trait_impl ::= identifier (type_arguments)? 
+type_parameters ::="&lt;" type_parameter ("," type_parameter)* "&gt;" 
+type_arguments ::="&lt;" type ("," type)* "&gt;" 
+struct_body ::=(struct_member ";" )* 
+struct_member ::=struct_field 
+    | struct_method 
+struct_field ::=("mut")? identifier type_annotation 
+struct_method ::= "fun" identifier "(" parameter_list ")" (type_annotation)? function_body
+        
+enum_statement ::= export_modifier? "enum" identifier (type_parameters)? "{" (enum_variants)? "}"
+enum_variants ::= enum_variant ("," enum_variant)*
+enum_variant ::= identifier (enum_payload)?
+enum_payload ::= "(" type ("," type)* ")"
+
+use_statement ::= "use" use_path ("as" identifier)? ";"
+    | "use" use_path "{" use_list "}"";"
+use_path ::= identifier ("::" identifier)*
+use_list ::= use_item ("," use_item)*
+use_item ::= identifier ("as" identifier)?
+    | "*"
+
+module_statement ::= (public_modifier)? "module" identifier "{" (module_body)? "}"
+module_body ::= (module_item)*
+module_item ::= (public_modifier)? source_element
+public_modifier ::= "public"
+
+expression ::= assignment_expression ("," assignment_expression)*
+
+assignment_expression ::= conditional_expression
+    | unary_expression assignment_operator assignment_expression
+
+assignment_operator ::= =
+    | *=
+    | /=
+    | %=
+    | +=
+    | -=
+    | &lt;&lt;= 
+    | &gt;&gt;=
+    | &=
+    | ^=
+    | |=
+
+conditional_expression ::= logical_or_expression ("?" assignment_expression ":" assignment_expression)?
+
+logical_or_expression ::= logical_and_expression ("or" logical_and_expression)*
+
+logical_and_expression ::= bitwise_or_expression ("and" bitwise_or_expression)*
+
+bitwise_or_expression ::= bitwise_xor_expression ("|" bitwise_or_expression)*
+
+bitwise_xor_expression ::= bitwise_and_expression ("^" bitwise_and_expression)*
+
+bitwise_and_expression ::= equality_expression ("&" equality_expression)*
+
+equality_expression ::= relational_expression (equality_operator relational_expression)*
+
+equality_operator ::= ==
+    | !=
+
+relational_expression ::= shift_expression (relational_operator shift_expression)*
+
+relational_operator ::= &lt; 
+    | &gt;
+    | &lt;= 
+    | &gt;=
+
+shift_expression ::= additive_expression (shift_operator additive_expression)*
+
+shift_operator ::= &lt;&lt; 
+    | &gt;&gt;
+
+additive_expression ::= multiplicative_expression (additive_operator multiplicative_expression)*
+
+additive_operator ::= +
+    | -
+
+multiplicative_expression ::= unary_expression (multiplicative_operator unary_expression)*
+    
+multiplicative_operator ::= *
+    | /
+    | %
+
+unary_expression ::= postfix_expression
+    | (unary_operator unary_expression)+
+    
+unary_operator ::= +
+    | -
+    | ~
+    | !
+    
+postfix_expression ::= primary_expression
+    | postfix_expression "[" expression "]"
+    | postfix_expression "(" (argument_list)? ")"
+    | postfix_expression "." identifier
+    | postfix_expression "." identifier "(" (argument_list)? ")"
+
+primary_expression ::= scoped_identifier
+    | constants
+    | array_literal
+    | tuple_literal
+    | set_literal
+    | map_literal
+    | struct_initializer
+    | lambda_expression
+    | range_expression
+    | match_expression
+    | ( expression )
+
+scoped_identifier ::= identifier ("::" identifier)*
+
+constants ::= number
+    | string
+    | boolean
+
+array_literal ::= "[" (expression ("," expression)*)? "]"
+
+tuple_literal ::= "(" expression "," (expression ",")* ")"
+
+set_literal ::= "{" expression ("," expression)* "}"
+
+map_literal ::= "{" (map_entry ("," map_entry)*)? "}"
+
+map_entry ::= expression ":" expression
+
+struct_initializer ::= identifier "{" (struct_fields)? "}"
+struct_fields ::= struct_field ("," struct_field)*
+struct_field ::= identifier ":" expression
+
+range_expression ::= expression ".." expression
+    | expression "..=" expression
+
+lambda_expression ::= "fun" "(" parameter_list ")" (type_annotation)? "-&gt;" expression
+    | "fun" "(" parameter_list ")" (type_annotation)? "-&gt;" function_body
+    
+match_expression ::= "match" expression "{" match_arm_list "}"
+match_arm_list ::= match_arm ("," match_arm)* ","?
+match_arm ::= pattern "=&gt;" expression
+            </code>
+        </content>
+    </assistant>
+</conversation>
