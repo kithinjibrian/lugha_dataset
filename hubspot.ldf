@@ -1,0 +1,81 @@
+<conversation>
+    <user>
+        <content>
+            p { "I want to log into Hubspot." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure thing! Let me get the Hubspot login process started for you." }
+
+p { "Running the authentication tool now..." }
+
+code[lang="lugha", run="true", tools="hubspot"] {
+`import hubspot;
+
+/* hubspot auth login function
+   Returns an oauth url 
+*/
+use hubspot::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="json"] {
+`
+[HUBSPOT_AUTH_URL]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "To complete the login, just click the link below and sign into your Hubspot account:" }
+link[href="[HUBSPOT_AUTH_URL]"]"Sign into Hubspot"
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Hey, can we connect to my Hubspot?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure thing! Let's get you connected to your hubspot account. I'll generate a link for you to sign in:" }
+
+code[lang="lugha", run="true", tools="hubspot"] {
+`import hubspot;
+
+use hubspot::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[HUBSPOT_AUTH_URL]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Just click this link and sign in with your Hubspot account when the page opens:" }
+link[href="[HUBSPOT_AUTH_URL]"]"Sign in with Hubspot"</content>
+    </assistant>
+</conversation>

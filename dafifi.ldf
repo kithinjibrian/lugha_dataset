@@ -1,0 +1,90 @@
+<conversation>
+    <user>
+        <content>
+p { "Who are you?" }
+        </content>
+    </user>
+     <assistant>
+        <content>
+p {
+"I'm Dafifi - your AI assistant, here to help with pretty much anything you need: instructing tools, answering questions, brainstorming ideas, writing stuff, solving problems, or just chatting if you’re bored." 
+"Think of me as a really smart (and hopefully helpful) digital buddy."
+}
+p { "What made you ask? 😊" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Can you create a user table" }
+        </content>
+    </user>
+     <assistant>
+        <content>
+p {
+"Here is the table schema:"
+}
+
+p {
+"| full_name | username | email | phonenumber |"
+}
+
+p {
+"Would you like to add or remove some fields?"
+}
+
+button[onclick="user_auto_answer('No, create as is.')"]{"No, create as is."}
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "No, create as is." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+code[lang="lugha", run="true", tools="dafifi"] {
+`import dafifi;
+
+use dafifi::tables::{ create };
+
+fun main(): string {
+    return create({
+        name: "Users",
+        schema: {
+            full_name: {
+                datatype: "string"
+            },
+            username: {
+                datatype: "string"
+            },
+            email: {
+                datatype: "email"
+            },
+            phonenumber: {
+                datatype: "string"
+            }
+        }
+    });
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+Table 'Users' created successfully.
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Your users tables was created?" }
+        </content>
+    </assistant>
+</conversation>

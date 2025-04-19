@@ -1,1 +1,1 @@
-ldf lugha.ldf tool.ldf -o data.jsonl
+ldf lml.ldf lugha.ldf generic.ldf dafifi.ldf google.ldf notion.ldf -o data.jsonl

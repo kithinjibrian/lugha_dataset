@@ -1,0 +1,1894 @@
+<conversation>
+    <user>
+        <content>
+            p { "I want to log into Google." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure thing! Let me get the Google login process started for you." }
+
+p { "Running the authentication tool now..." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+    [GOOGLE_AUTH_URL]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "To complete the login, just click the link below and sign in with your Google account:" }
+link[href="[GOOGLE_AUTH_URL]"]"Sign in with Google"
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    status: "ok",
+    message: "Successful login"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Great! You've successfully logged in with your Google account. What would you like to do now? For example, you could check your emails, calendar, or something else. Just let me know!" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "I want to log in with Google." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure thing! Let me get the Google login process started for you. Running the authentication tool now..." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+    [GOOGLE_AUTH_URL]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "To complete the login, just click the link below and sign in with your Google account:" }
+            link[href="[GOOGLE_AUTH_URL]"]"Sign in with Google"</content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "error": "Google login failed: User declined authorization."
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Hmm, it looks like the Google login wasn't successful. The message says: \"Google login failed: User declined authorization.\" Did you perhaps cancel the login? If you'd like to try again, just let me know!" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Hey, can we connect to my Google stuff?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure thing! Let's get you connected to your Google account. I'll generate a link for you to sign in:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+    [GOOGLE_AUTH_URL]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Just click this link and sign in with your Google account when the page opens:" }
+            link[href="[GOOGLE_AUTH_URL]"]"Sign in with Google"</content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "I need to connect to my Google account." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Understood. Initiating the Google login process:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`{
+    "error": "Google Authentication service is temporarily unavailable."
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Apologies, it seems the Google Authentication service is temporarily unavailable. Please try again in a little while." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Ugh, my inbox is probably overflowing. Any chance you could tell me if I have anything urgent waiting? Maybe just unread ones with \"important\" in the subject?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Haha, I hear you! Let's see if we can filter out the noise. I'll check for unread emails with \"important\" in the subject line for you:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "is:unread subject:important", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "id1",
+        "subject": "Important: Project Timeline Update",
+        "from": "boss@company.com"
+    },
+    {
+        "id": "id2",
+        "subject": "Important: Action Required - Account Verification",
+        "from": "security@service.net"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Okay, it looks like you have two unread emails with \"important\" in the subject." }
+            p { b"1. From:""boss@company.com" }
+            p { b"Subject:"button[onclick="open_gmail('id1')"]"Important: Project Timeline Update" }
+            p { b"2. From:""security@service.net" }
+            p { b"Subject:"button[onclick="open_gmail('id2')"]"Important: Action Required - Account Verification" }
+            p { "Might be worth taking a look at those! Which one would you like to see?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from open_gmail function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ read };
+
+fun main(): string {
+    return read("id1");
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "id": "id1",
+    "subject": "Important: Project Timeline Update",
+    "from": "boss@company.com",
+    "date": "Thu, 10 Apr 2025 10:00:00 GMT+0300",
+    "body": "Hey [User's Name],\n\nJust a quick heads-up that the deadline for Phase 2 of the project has been moved up to next Friday. Please review the attached document for the updated timeline and let me know if you have any questions.\n\nBest,\n\n[Boss's Name]"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Okay, here are the details for the email regarding the \"Project Timeline Update\":" }
+
+p { b"From:""boss@company.com"}
+p { b"Subject:""Important: Project Timeline Update"}
+p { b"Date:""April 10, 2025, 1:00 PM EAT"}
+p { b"Body:"}
+
+code[lang="text"] {
+`Hey [User's Name],
+
+Just a quick heads-up that the deadline for Phase 2 of the project has been moved up to next Friday. Please
+review the attached document for the updated timeline and let me know if you have any questions.
+
+Best,
+
+[Boss's Name]
+`
+}
+p { "Let me know if you'd like to take any action on this email, like replying or marking it as read!" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Just want to quickly see the last three emails I received." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "No problem! Grabbing your latest three emails:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`
+import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "in:inbox", max_results: 3});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "recent_id_1",
+        "subject": "Weekly Newsletter",
+        "from": "news@example.com"
+    },
+    {
+        "id": "recent_id_2",
+        "subject": "Meeting Reminder",
+        "from": "calendar@example.com"
+    },
+    {
+        "id": "recent_id_3",
+        "subject": "Your Order Confirmation",
+        "from": "shop@example.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Okay, your three most recent emails are: \"Weekly Newsletter,\" \"Meeting Reminder,\" and \"Your Order Confirmation.\" Anything catch your eye?" }
+
+p { b"1. From:""news@example.com" }
+p { b"Subject:"button[onclick="open_gmail('recent_id_1')"]"Weekly Newsletter" }
+
+p { b"2. From:""calendar@example.com" }
+p { b"Subject:"button[onclick="open_gmail('recent_id_2')"]"Meeting Reminder" }
+
+p { b"2. From:""shop@example.com" }
+p { b"Subject:"button[onclick="open_gmail('recent_id_3')"]"Your Order Confirmation" }
+
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "I'm expecting an email with a PDF attachment. Has it arrived yet?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Let me check for any new emails with a PDF attachment:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "has:attachment filename:.pdf is:unread", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "pdf_id_1",
+        "subject": "Project Report",
+        "from": "david@example.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Yes, there's one unread email with a PDF attachment, titled \"Project Report\" from david@example.com. Want to take a look?" }
+            button[onclick="open_gmail('pdf_id_1')"]"Open email"</content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from open_gmail function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ read };
+
+fun main(): string {
+    return read("pdf_id_1");
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "id": "pdf_id_1",
+    "subject": "Project Report",
+    "from": "david@example.com",
+    "date": "2025-04-11T13:28:00+03:00",
+    "body": "Hey [User's Name],\n\nHere's the project report you requested. Let me know if you have any questions.\n\nBest,\n\nDavid"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Okay, here are the details for the email regarding the \"Project Report\":" }
+
+p { b"From:""david@example.com" }
+p { b"Subject:""Project Report" }
+p { b"Date:""April 11, 2025, 4:28 PM EAT" }
+p { b"Body:" }
+
+code[lang="text"] {
+`Hey [User's Name],
+
+Here's the project report you requested. Let me know if you have any questions.
+
+Best,
+
+David
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Just wondering if I have any starred emails I haven't read yet." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Good question! Let me check for your unread starred emails:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+return list({q: "is:starred is:unread", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+    []
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Nope, looks like you've read all your starred emails! Good job keeping up." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "I think I got an email from my bank recently. Can you check?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+            p { "Sure, I can search for emails that might be from your bank. What's the name of your bank?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+            p { "It's \"Kenya Commercial Bank\"." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, searching for recent emails from \"Kenya Commercial Bank\":" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "from:'Kenya Commercial Bank' newer_than:7d", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "kcb_id_1",
+        "subject": "Your Account Statement for March",
+        "from": "info@kcbgroup.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Yes, I found one email titled \"Your Account Statement for March\" from info@kcbgroup.com. Is that the one you were looking for?" }
+            button[onclick="open_gmail('kcb_id_1')"]"Open email"
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Morning! Did I get any new emails about the marketing campaign?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Good morning! Let me check for unread emails with \"marketing campaign\" in the subject:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "is:unread subject:'marketing campaign'", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "marketing_id_1",
+        "subject": "Updates on the Marketing Campaign Strategy",
+        "from": "jane@marketing.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Yes, there's one unread email: \"Updates on the Marketing Campaign Strategy\" from jane@marketing.com. Want to read it?" }
+            button[onclick="open_gmail('marketing_id_1')"]"Open email"</content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from open_gmail function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ read };
+
+fun main(): string {
+    return read("marketing_id_1");
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "id": "marketing_id_1",
+    "subject": "Updates on the Marketing Campaign Strategy",
+    "from": "jane@marketing.com",
+    "date": "2025-04-11T09:00:00+03:00",
+    "body": "Hi Team,\n\nHere are the latest updates on the marketing campaign strategy. Please review the attached document for details.\n\nThanks,\nJane"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Okay, here are the details for the email \"Updates on the Marketing Campaign Strategy\":" }
+p { b"From:""jane@marketing.com" }
+p { b"Subject:""Updates on the Marketing Campaign Strategy" }
+p { b"Date:""April 11, 2025, 10:00 AM EAT" }
+p { b"Body:" }
+
+code[lang="text"] {
+`Hi Team,
+
+Here are the latest updates on the marketing campaign strategy. Please review the attached document for
+details.
+
+Thanks,
+Jane
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Remind me, who was the last person I emailed yesterday?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Let me check your sent emails from yesterday:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "in:sent newer_than:1d", max_results: 1, sort: "date"});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "sent_id_1",
+        "subject": "Re: Meeting Schedule",
+        "from": "you@example.com",
+        "to": [ "david@client.com" ]
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "The last person you emailed yesterday was david@client.com, regarding \"Re: Meeting Schedule\"." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Any news about my application? I think they usually email updates." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+            p { "Let's see if there are any unread emails related to your application. What might be in the subject or who might it be from?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+            p { "Maybe \"Application Update\" in the subject, and it might be from an address ending in \"@careers.com\"." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, searching for unread emails with \"Application Update\" in the subject and from \"@careers.com\":" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+return list({q: "is:unread subject:'Application Update' from:*@careers.com", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "apply_id_1",
+        "subject": "Application Update - Interview Invitation",
+        "from": "recruiter@careers.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Good news! There's an unread email: \"Application Update - Interview Invitation\" from recruiter@careers.com. Want to open it?" }
+            button[onclick="open_gmail('apply_id_1')"]"Open email"
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from open_gmail function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ read };
+
+fun main(): string {
+    return read("apply_id_1");
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "id": "apply_id_1",
+    "subject": "Application Update - Interview Invitation",
+    "from": "recruiter@careers.com",
+    "date": "2025-04-11T11:30:00+03:00",
+    "body": "Dear [User's Name],\n\nWe are pleased to invite you for an interview...\n\nSincerely,\nThe Hiring Team"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Great! Here are the details for the \"Application Update - Interview Invitation\":" }
+
+p { b"From:""recruiter@careers.com" }
+p { b"Subject:""Application Update - Interview Invitation" }
+p { b"Date:""April 11, 2025, 12:30 PM EAT" }
+p { b"Body:" }
+
+code[lang="text"] {
+`Dear [User's Name],
+
+We are pleased to invite you for an interview...
+
+Sincerely,
+The Hiring Team
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Did I get that confirmation email for the hotel booking?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Let me check for emails with \"hotel booking confirmation\" in the subject:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+return list({q: "subject:'hotel booking confirmation'", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "hotel_id_1",
+        "subject": "Your Hotel Booking Confirmation - [Hotel Name]",
+        "from": "reservations@[hoteldomain].com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Yes, found one: \"Your Hotel Booking Confirmation - [Hotel Name]\" from reservations@[hoteldomain].com. Want to open it to see the details?" }
+            button[onclick="open_gmail('hotel_id_1')"]"Open email"</content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from open_gmail function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ read };
+
+fun main(): string {
+return read("hotel_id_1");
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "id": "hotel_id_1",
+    "subject": "Your Hotel Booking Confirmation - [Hotel Name]",
+    "from": "reservations@[hoteldomain].com",
+    "date": "2025-04-10T18:00:00+03:00",
+    "body": "Dear [User's Name],\n\nThank you for your booking...\n\nSincerely,\n[Hotel Name]"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Okay, here's your hotel booking confirmation:" }
+
+p { b"From:""reservations@[hoteldomain].com" }
+p { b"Subject:""Your Hotel Booking Confirmation - [Hotel Name]" }
+p { b"Date:""April 10, 2025, 7:00 PM EAT" }
+p { b"Body:" }
+
+code[lang="text"] {
+`Dear [User's Name],
+
+Thank you for your booking...
+
+Sincerely,
+[Hotel Name]
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Let me see the emails I sent this morning." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure, checking your sent emails from today:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "in:sent after:'today'", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "sent_today_1",
+        "subject": "Project Meeting Agenda",
+        "from": "you@example.com",
+        "to": [ "team@example.com" ]
+    },
+    {
+        "id": "sent_today_2",
+        "subject": "Quick Question",
+        "from": "you@example.com",
+        "to": [ "colleague@example.com" ]
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Okay, this morning you sent two emails: \"Project Meeting Agenda\" to the team and \"Quick Question\" to your colleague." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Check my unread emails, please." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure, let me check your unread emails:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "is:unread", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`{
+    "error": "Google API authentication failed. Please ensure your account is properly linked."
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Hmm, it seems there was an issue accessing your Gmail. The error message says: \"Google API authentication failed. Please ensure your account is properly linked.\" You might need to reconnect your Google account in the settings. Should I guide you through that process?" }
+            button[onclick="google_auth()"]"Reconnect with Google"</content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from google_auth function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+    [GOOGLE_AUTH_URL]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "To complete the login, just click the link below and sign in with your Google account:" }
+            link[href="[GOOGLE_AUTH_URL]"]"Sign in with Google"</content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    status: "ok",
+    message: "Successful login"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Okay, your Google account is now linked. Checking your unread emails:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "is:unread", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "followup_id_1",
+        "subject": "Meeting Notes",
+        "from": "team@example.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Found one unread email: \"Meeting Notes\" from team@example.com. Want to read it?" }
+            button[onclick="open_gmail('followup_id_1')"]"Open email"
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from open_gmail function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ read };
+
+fun main(): string {
+    return read("followup_id_1");
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "id": "followup_id_1",
+    "subject": "Meeting Notes",
+    "from": "team@example.com",
+    "date": "2025-04-10T16:00:00+03:00",
+    "body": "Hi all,\n\nPlease find attached the meeting notes from yesterday's session.\n\nBest,"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Here are the meeting notes from yesterday:" }
+p { b"From:""team@example.com" }
+p { b"Subject:""Meeting Notes" }
+p { b"Date:""April 10, 2025, 5:00 PM EAT" }
+p { b"Body:" }
+
+code[lang="text"] {
+`Hi all,
+
+Please find attached the meeting notes from yesterday's session.
+
+Best,
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Show me the emails I've starred." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Alright, let me pull up your starred emails:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "is:starred", max_results: 3});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "blend_id_5",
+        "subject": "Important Client Feedback",
+        "from": "client@alpha.com"
+    },
+    {
+        "id": "blend_id_6",
+        "subject": "Travel Itinerary",
+        "from": "travel@agency.net"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Here are a couple of your starred emails:" }
+            p { b"1. From:""client@alpha.com" }
+            p { b"Subject:"button[onclick="open_gmail('blend_id_5')"]"Important Client Feedback" }
+            p { b"2. From:""travel@agency.net" }
+            p { b"Subject:"button[onclick="open_gmail('blend_id_6')"]"Travel Itinerary" }
+            p { "The \"Important Client Feedback\" sounds... well, important! Want to take a look at that one?" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "List the emails I got about the project this week." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, searching for emails about the project from this week:" }
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "subject:project after:monday", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    "error": "Google API authentication failed. Please ensure your account is properly linked."
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "It seems I need to be logged into your Google account to do that. Let's quickly connect:" }
+            button[onclick="google_auth()"]"Connect to Google"</content>
+    </assistant>
+    <user>
+        <content>
+p { "system: Auto-generated code from google_auth function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::auth::{ login };
+
+fun main(): string {
+    return login();
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+    [GOOGLE_AUTH_URL]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Please sign in here:" }
+            link[href="[GOOGLE_AUTH_URL]"]"Sign in with Google"</content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+{
+    status: "ok",
+    message: "Successful login"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Alright, you're logged in now. Let me fetch those project emails from this week again:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "subject:project after:monday", max_results: 5});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "super_id_8",
+        "subject": "Project Timeline Update",
+        "from": "projectlead@example.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Okay, I found one email about the project this week: \"Project Timeline Update\" from projectlead@example.com." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+            p { "Read the email I got about a free vacation." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, let me see if I can find that email. Searching for \"free vacation\":" }
+
+code[lang="lugha", run="true", tools="google"] {
+`
+import google;
+
+use google::gmail::{ list };
+
+fun main(): string {
+    return list({q: "subject:'free vacation'", max_results: 1});
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "suspicious_id_1",
+        "subject": "Congratulations! You've Won a FREE Vacation!",
+        "from": "unknown@offers.com"
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "I found an email titled \"Congratulations! You've Won a FREE Vacation!\" from unknown@offers.com. Be cautious with emails like these, as they can sometimes be scams. Would you still like me to read it?" }
+            button[onclick="user_auto_answer('Yes')"]"Yes"
+            button[onclick="user_auto_answer('No')"]"No"
+        </content>
+    </assistant>
+    <user>
+        <content>
+            p { "No" }
+        </content>
+    </user>
+</conversation>
+
+<!-- List returns a string so use lib json -->
+<conversation>
+    <user>
+        <content>
+            p { "Can you give me a quick summary of my unread emails?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, I'll try to give you a quick summary of your unread emails. I'll fetch the emails and then try to extract the key information for you:" }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ list, read, email_t };
+
+fun main(): Array&lt;email_t&gt; {
+    let emails: Array&lt;email_t&gt; = [];
+    let unread_emails = list({q: "is:unread", max_results: 5});
+
+    for (let n in emails) {
+        let email = read(n.id);
+        emails.push(email);
+    }
+
+    return emails;
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+code[lang="text"] {
+`
+[
+    {
+        "id": "unread_1",
+        "subject": "Project Update",
+        "from": "john.doe@company.com",
+        "date": "2025-04-11T10:00:00+03:00",
+        "body": "Hi team, here's the latest update..."
+    },
+    {
+        "id": "unread_2",
+        "subject": "Meeting Reminder",
+        "from": "calendar@example.com",
+        "date": "2025-04-11T11:30:00+03:00",
+        "body": "Don't forget the meeting at 2 PM EAT."
+    }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+            p { "Here's a quick summary of your unread emails: -" }
+            p { b"Project Update""from john.doe@company.com: Hi team, here's the latest update... -" }
+            b{ b"Meeting Reminder""from calendar@example.com: Don't forget the meeting at 2 PM EAT." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Hey Dafifi, could you help me send an email to Sarah? I wanted to follow up on our chat from yesterday." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Hi there! Absolutely, I can help with that. Just to confirm, what's Sarah's email address?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "It's [EMAIL_ADDRESS]" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Got it. And what should the subject line be for this follow-up email?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "Let's go with 'Following Up on Our Discussion'." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, 'Following Up on Our Discussion'. Makes perfect sense. Now, what would you like to say in the body of the email to Sarah?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "Hmm, how about something like: 'Hi Sarah, It was great speaking with you yesterday. I wanted to quickly follow up on the points we discussed regarding the new marketing strategy. Let me know if you have any further questions. Best,' and then my name." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sounds good! So, to recap, we're sending an email to [EMAIL_ADDRESS] with the subject 'Following Up on Our Discussion' and the body: 'Hi Sarah, It was great speaking with you yesterday. I wanted to quickly follow up on the points we discussed regarding the new marketing strategy. Let me know if you have any further questions. Best, [YOUR_NAME]'. Ready to send it off?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "Yes, please do!" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Alright, sending the email to Sarah now." }
+code[lang="lugha", run="true", tools="gmail"] {
+`import google;
+
+use google::gmail::{ send };
+
+fun main(): Map&lt;string, string&gt; {
+    return send({
+        to: "[EMAIL_ADDRESS]",
+        subject: "Following Up on Our Discussion",
+        body: "Hi Sarah,\nIt was great speaking with you yesterday. I wanted to quickly follow up on the points we discussed regarding the new marketing strategy. Let me know if you have any further questions.\n\nBest,\n[User's Name]"
+    })
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`{
+    "status": "sent",
+    "id": "[EMAIL_ID]"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Great! The email to Sarah has been sent. Let me know if there's anything else I can help you with." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Could you email my boss? It's about the report. I think I finished it? Or maybe not quite. Can you just ask him if he needs it?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, I can do that. What's your boss's email address? And what exactly should I put in the subject and body of the email regarding the report?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "His email is bossman@work.com. For the subject, maybe 'Checking In: Report Status'? And in the body, just something like, 'Hi [Boss's Name], Just wanted to check if you need the report. Let me know! Thanks.'" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sounds good. So, emailing bossman@work.com with the subject 'Checking In: Report Status' and the body: 'Hi [Boss's Name], Just wanted to check if you need the report. Let me know! Thanks.' Sending it over!" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "Cool, appreciate it." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Email sent!" }
+code[lang="lugha", run="true", tools="gmail"] {
+`import google;
+
+use google::gmail::{ send };
+
+fun main(): Map&lt;string, string&gt; {
+    return send({
+        to: "bossman@work.com",
+        subject: "Checking In: Report Status",
+        body: "Hi [Boss's Name], Just wanted to check if you need the report. Let me know! Thanks."
+    })
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`{
+    "status": "sent",
+    "id": [EMAIL_ID]
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "You got it. Hopefully, you'll get a response soon!" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Hey, can you email my friend,his email is mark.something@mail.net. Just tell him I'll be a bit late for dinner tonight." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Got it. So, sending an email to mark.something@mail.net. What should the subject be, like 'Running Late'?" }
+button[onclick="user_auto_answer('Yes)"]"Yes"
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "Yeah, that works. And just say, 'Hey Mark, Just wanted to let you know I'm going to be about 15-20 minutes late for dinner tonight. See you soon!'" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Okay, emailing mark.something@mail.net with the subject 'Running Late' and the body: 'Hey Mark, Just wanted to let you know I'm going to be about 15-20 minutes late for dinner tonight. See you soon!' Sending it now." }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "Thanks a bunch!" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "No problem! Email to Mark is on its way." }
+code[lang="lugha", run="true", tools="gmail"] {
+`import google;
+
+use google::gmail::{ send };
+
+fun main(): Map&lt;string, string&gt; {
+    return send({
+        to: "mark.something@mail.net",
+        subject: "Running Late",
+        body: "Hey Mark, Just wanted to let you know I'm going to be about 15-20 minutes late for dinner tonight. See you soon!"
+    })
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`{
+    "status": "sent",
+    "id": [EMAIL_ID]
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "You're all set!" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Send an email to my supervisor about the next steps in my research." }
+p { "to:" }
+p { "supervisor@gmail.com" }
+p { "subject:" }
+p { "Next steps in my research" }
+p { "Hi [Supervisor]," }
+p { "I’m writing to let you know that I’ve completed the analysis of the data and have found some interesting results. The next steps are to write a paper, which I plan to do over the summer. I’ll send you an early draft when it’s ready for your review." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Email to Supervisor is on its way." }
+code[lang="lugha", run="true", tools="gmail"] {
+`import google;
+
+use google::gmail::{ send };
+
+fun main(): Map&lt;string, string&gt; {
+    return send({
+        to: "supervisor@gmail.com",
+        subject: "Next steps in my research",
+        body: "Hi [Supervisor],\nI’m writing to let you know that I’ve completed the analysis of the data and have found some interesting results. The next steps are to write a paper, which I plan to do over the summer. I’ll send you an early draft when it’s ready for your review."
+    })
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`{
+    "status": "sent",
+    "id": "[EMAIL_ID]"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Sent the email to supervisor!" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Hey, could you make a new folder in my Google Drive? Call it 'notes'." }
+       </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure thing! I can definitely create a folder called 'notes' for you in your Google Drive. Just give me a moment." }
+code[lang="lugha", run="true", tools="gmail"] {
+`import google;
+
+use google::drive::{ mkdir };
+
+fun main(): Map&lt;string, string&gt; {
+    return mkdir("notes");
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`{
+    "kind": "drive#file",
+    "id": "1dNP2jqJ1LYNns_Xka-zHjpZhm0ePosu6",
+    "name": "notes",
+    "mimeType": "application/vnd.google-apps.folder"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Alright, the folder 'notes' has been created in your Google Drive successfully! You should see it there now." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Create a google doc called biology" }
+       </content>
+    </user>
+    <assistant>
+        <content>
+p { "Absolutely! I can get a new Google Doc named 'biology' ready for you in no time. Just give me a sec." }
+code[lang="lugha", run="true", tools="gmail"] {
+`import google;
+
+use google::docs::{ new_doc };
+
+fun main(): Map&lt;string, string&gt; {
+    return new_doc("biology");
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`{
+    "kind": "drive#file",
+    "id": "11mNI5rrHyqs9NXhQ3IGR1k9IHHP3iLa_KTEB8n4N1EQ",
+    "name": "docs",
+    "mimeType": "application/vnd.google-apps.document"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Okay, the Google Doc 'biology' is all set and ready for you! You should find it in your Google Drive. Let me know if there's anything else you need." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Can you show me the files I've got in my Google Drive?" }
+       </content>
+    </user>
+    <assistant>
+        <content>
+p { "Sure thing! I can list the files in your Google Drive for you. Just a moment while I fetch them." }
+code[lang="lugha", run="true", tools="gmail"] {
+`import google;
+
+use google::drive::{ list };
+
+fun main(): Map&lt;string, string&gt; {
+    return list({
+        pageSize: 10,
+        fields: 'files(name, id)'
+    });
+}
+`
+}
+        </content>
+    </assistant>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`[
+  {
+    "id": "11mNI5rrHyqs9NXhQ3IGR1k9IHHP3iLa_KTEB8n4N1EQ",
+    "name": "heart essay"
+  },
+  {
+    "id": "1oYam78_wcVurn_IH9VYoEJjy-VCEsjna",
+    "name": "church contribution"
+  }
+]
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "Alright, here are the files I found in your Google Drive:" }
+ul {
+        li { "heart essay"button[onclick="open_gdoc('11mNI5rrHyqs9NXhQ3IGR1k9IHHP3iLa_KTEB8n4N1EQ')"]"Read" }
+        li { "church contribution"button[onclick="open_gdoc('1oYam78_wcVurn_IH9VYoEJjy-VCEsjna')"]"Read" }
+}
+p { "Do you want me to list more files, or would you like to do something else with these?" }
+        </content>
+    </assistant>
+    <user>
+    <content>
+p { "system: Auto-generated code from open_gdoc function." }
+
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::docs::{ get };
+
+fun main(): string {
+    return get("11mNI5rrHyqs9NXhQ3IGR1k9IHHP3iLa_KTEB8n4N1EQ");
+}
+`
+}
+        </content>
+    </user>
+    <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`Title: heart essay
+
+The heart is an organ found in the chest cavity...
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "I see you've opened the 'heart essay' document. Would you like a summary?"button[onclick="user_auto_answer('Yes')"]"Yes" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "I need to send an email to my boss. Can you help me with that?" }
+       </content>
+    </user>
+    <assistant>
+        <content>
+p { "Of course, I can help you with that. Could you please provide me with the recipient's email address, the subject of the email, and the content you wish to send?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "The recipient's email is boss@company.com. The subject is \"Project Update\". And the message is \"Dear Boss, I have completed the project as per the given deadline. I have attached the final report for your review. Regards, [User's Name]\"." }
+       </content>
+    </user>
+    <assistant>
+        <content>
+p { "Ok. Sending the email" }
+code[lang="lugha", run="true", tools="google"] {
+`import google;
+
+use google::gmail::{ send };
+
+fun main(): Map&lt;string, string&gt; {
+    return send({
+        to: "boss@company.com",
+        subject:"Project Update",
+        body:"Dear Boss, I have completed the project as per the given deadline. I have attached the final report for your review. Regards, [User's Name]"
+    });
+}
+`
+}
+        </content>
+    </assistant>
+       <tool>
+        <content>
+p { "Result from tool" }
+code[lang="text"] {
+`{
+    "status": "sent",
+    "id": "[EMAIL_ID]"
+}
+`
+}
+        </content>
+    </tool>
+    <assistant>
+        <content>
+p { "The email has been sent successfully to your boss. Is there anything else you need assistance with?" }
+        </content>
+    </assistant>
+    <user>
+        <content>
+p { "Hi, I need to analyze my website. Can you help me with that?" }
+       </content>
+    </user>
+    <assistant>
+        <content>
+p { "Of course! Could you please provide me with the URL of your website and the specific metrics you'd like to analyze?" }
+        </content>
+    </assistant>
+</conversation>
+

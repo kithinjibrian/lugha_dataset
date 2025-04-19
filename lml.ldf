@@ -1,0 +1,303 @@
+<conversation>
+    <user>
+        <content>
+p { "What is lml?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "LML is a markup language for Dafifi that defines the structure of responses recieved from AI." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "What is the purpose of the `h1` to `h6` tags?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "The `h1` to `h6` tags define LML headings. `h1` represents the most important heading, and `h6` represents the least important." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you create a paragraph in LML?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You create a paragraph in LML using the `p` tag."
+"For example: p { \"This is a paragraph\" }"
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "What is an LML attribute?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "A LML attribute provides additional information about LML elements. Attributes are always enclosed in brackets, usually in name/value pairs like `name=\"value\"`."
+"For example: link[href=\"attribute\"]\"\""
+"In the example above `href=\"attribute\"` is the attribute"
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you create an unordered list in LML?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You create an unordered list in LML using the `ul` tag. Each item in the list is enclosed within `li` (list item) tags." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you create an ordered list in LML?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You create an ordered list in LML using the `ol` tag. Each item in the list is enclosed within `li` (list item) tags." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you create a hyperlink in LML?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You create a hyperlink in LML using the `link` tag. The `href` attribute is used to specify the destination URL." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "What are comments in LML and how are they written?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Comments in LML allow you to add notes or explanations to your code that are not displayed in Dafifi. They are written using the // or enclosed in /**/" }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you create a basic paragraph of text in LML?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You use the `p` tag to create a paragraph." }
+
+p { "Here's an example:" }
+
+code[lang="lml"] {
+`
+p { "This is a paragraph of text." }
+
+// All strings will be rendered as one paragraph
+
+p { "This is string.""This is also string." }
+
+// output:
+/*
+    This is string. This is also string.
+*/
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "What are strings in LML and how are they written?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "Strings are a basic unit in LML and they are always enclosed in either (\", ') for single line strings and (`) for multiple line strings." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Show me how to create a level 1 heading in LML." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You use the `h1` tag to create a level 1 heading." }
+
+p { "Here's an example:" }
+
+code[lang="lml"] {
+`
+h1{ "This is a Main Heading" }
+`
+}
+
+p { "This will display \"This is a Main Heading\" in a large, bold font." }
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "What is the LML code to create an unordered list with three items?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You use the `ul` tag for unordered lists and `li` for each list item:" }
+
+code[lang="lml"] {
+`
+ul{
+    li { "Apple" }
+    li { "Mango" }
+    li { "Banana" }
+}
+`
+}
+
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Show me how to create an ordered list (numbered list) in LML." }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You use the `ol` tag for ordered lists and `li` for each list item:" }
+
+code[lang="lml"] {
+`
+ol{
+    li { "Apple" }
+    li { "Mango" }
+    li { "Banana" }
+}
+`
+}
+
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you use the `span` tag to style a specific part of text within a paragraph?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "The `span` tag is an inline container used to mark up a part of text for styling or other purposes:" }
+
+code[lang="lml"] {
+`
+// span use &lt; and &gt; to enclose multiple strings. It's an inline container.
+p { span&lt;"Hello World""Hello Kenya""Hello Africa"&gt; }
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you italicize text in LML?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You can use the `i` tag to emphasize text, which is typically displayed in italics:" }
+
+code[lang="lml"] {
+`
+p { "This text is"i"emphasized" }
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "How do you bold text in LML?" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "You can use the `b` tag to bold text:" }
+
+code[lang="lml"] {
+`
+p { "This text is"b"bold" }
+`
+}
+        </content>
+    </assistant>
+</conversation>
+
+<conversation>
+    <user>
+        <content>
+p { "Types of container in LML" }
+        </content>
+    </user>
+    <assistant>
+        <content>
+p { "LML has two containers. Block and inline containers. Block containers use braces `{}` while inline containers use chevrons `&lt;&gt;`" }
+
+code[lang="lml"] {
+`
+// block containers use "{}" to enclose elements
+p { "This is a block container." }
+
+// inline containers use "&lt;&gt;" to enclose strings
+p { span[color="red"]&lt;b"This text is bold"i"This text is in italic"&gt; }
+`
+}
+        </content>
+    </assistant>
+</conversation>
